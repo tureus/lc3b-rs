@@ -1,3 +1,5 @@
+mod abi;
+
 #[cfg(test)]
 mod tests {
     #[test]
