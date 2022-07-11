@@ -1,0 +1,5 @@
+[package]
+name = "lc3b-web"
+version = "0.1.0"
+
+[lib]

@@ -1,0 +1,16 @@
+[package]
+authors = ["Xavier Lange <xrlange@gmail.com>"]
+name = "lc3b"
+version = "0.1.0"
+edition = "2021"
+description = "LC3B computer emulator"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bitvec = "1"
+wasm-bindgen = "0.2"
+
+[lib]
+crate-type = ["cdylib"]
