@@ -1,0 +1,27 @@
+program = {
+    (WHITE_SPACE* ~ instruction ~ WHITE_SPACE* ~ ";" ~ WHITE_SPACE* ~ comment ~ WHITE_SPACE* ~ NEWLINE?)+
+}
+
+instruction = {
+  opcode ~ WHITE_SPACE+ ~ operands
+}
+
+opcode = {
+    ASCII_ALPHA+
+}
+
+operands = {
+    ((register | literal) ~ WHITE_SPACE* ~ ","? ~ WHITE_SPACE*)+
+}
+
+comment = {
+    (ASCII_ALPHANUMERIC | SPACE_SEPARATOR)*
+}
+
+register = {
+    ("R" | "r") ~ ASCII_DIGIT
+}
+
+literal = {
+    ASCII_DIGIT+
+}

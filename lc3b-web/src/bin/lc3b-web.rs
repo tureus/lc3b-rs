@@ -12,6 +12,7 @@ async fn main() {
         .route("/lc3b_bg.wasm", get(get_lc3b_wasm))
         .route("/lc3b.js", get(get_lc3b_js));
 
+    println!("binding to http://0.0.0.0:3000");
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
         .await

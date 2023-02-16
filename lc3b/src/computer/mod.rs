@@ -18,6 +18,8 @@ impl Computer {
             condition: Condition::default(),
         }
     }
+
+    pub fn step<F: Fn() -> ()>(callback: F) {}
 }
 
 #[allow(dead_code)]

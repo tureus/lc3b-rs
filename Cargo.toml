@@ -1,5 +1,7 @@
 [workspace]
 members = [
     "lc3b",
+    "lc3b-assembler",
+    "lc3b-isa",
     "lc3b-web"
 ]
