@@ -4,12 +4,11 @@
     <body>
         <h1>LC3B</h1>
         <script type="module">
-            import init, {new_computer, parse_program} from "./lc3b.js";
+            import init, {parse_program} from "./lc3b.js";
             init()
                 .then(() => {
                     var program = "ADD R1, R2, 0; this is a program";
                     var data = parse_program(program);
-                    console.log(data);
                 });
         </script>
     </body>
