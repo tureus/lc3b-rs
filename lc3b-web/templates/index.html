@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
-    <body>
-        <h1>LC3B</h1>
-        <script type="module">
-            import init, {parse_program} from "./lc3b.js";
-            init()
-                .then(() => {
-                    var program = "ADD R1, R2, 0; this is a program";
-                    var data = parse_program(program);
-                });
-        </script>
-    </body>
+<head></head>
+<body>
+<h1 id="header_with_loading">LC3b (loading)</h1>
+<label name="program" id="program"></label>
+<textarea rows="20" cols="60" id="program">ADD R1, R2, 0; this is a program</textarea>
+<br/>
+<button onclick="run()">Run</button>
+<script type="module">
+    import init, {parse_program} from "./lc3b.js";
+
+    init()
+        .then(() => {
+            let clicker = document.querySelectorAll('button')[0];
+            clicker.onclick = function () {
+                let program_assembly = document.querySelectorAll('textarea[id="program"]')[0].value;
+                console.log(program_assembly);
+                parse_program(program_assembly);
+            }
+
+            let header = document.querySelectorAll('h1[id="header_with_loading"]')[0];
+            header.textContext = "LC3b";
+        });
+</script>
+</body>
 </html>
