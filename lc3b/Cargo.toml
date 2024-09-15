@@ -11,10 +11,11 @@ license = "MIT"
 [dependencies]
 bitvec = "1"
 wasm-bindgen = "0.2"
+js-sys = "0.3"
 anyhow = "1"
 thiserror = "1"
-lc3b-assembler = { path="../lc3b-assembler" }
-lc3b-isa = { path="../lc3b-isa" }
+lc3b-assembler = { path = "../lc3b-assembler" }
+lc3b-isa = { path = "../lc3b-isa" }
 
 [lib]
 crate-type = ["cdylib"]

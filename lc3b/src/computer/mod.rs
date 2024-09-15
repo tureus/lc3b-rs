@@ -11,7 +11,7 @@ pub struct Computer {
 }
 
 impl Computer {
-    pub fn new(program: Program) -> Self {
+    pub fn new(program: Program, js_callbacks: js_sys::Function) -> Self {
         Computer {
             program,
             program_counter: 0,
@@ -19,7 +19,7 @@ impl Computer {
         }
     }
 
-    pub fn step<F: Fn() -> ()>(callback: F) {}
+    pub fn step<F: Fn() -> ()>(_callback: F) {}
 }
 
 #[allow(dead_code)]

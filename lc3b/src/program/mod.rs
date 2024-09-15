@@ -12,3 +12,13 @@ impl Program {
         Ok(Program { instructions })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn parse_two_line_program() {
+        let program = r#"ADD R1, R2, 100; this is a program
+ADD R2, R3, 1000; blaha"#;
+        super::Program::from_assembly(program).unwrap();
+    }
+}
