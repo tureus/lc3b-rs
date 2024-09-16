@@ -26,7 +26,7 @@ impl Computer {
         }
     }
 
-    pub fn step<F: Fn() -> ()>(_callback: F) {}
+    pub fn step<F: Fn()>(_callback: F) {}
 }
 
 #[allow(dead_code)]

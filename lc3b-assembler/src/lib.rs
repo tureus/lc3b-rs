@@ -23,12 +23,11 @@ pub fn parse_to_program(program: &str) -> eyre::Result<Vec<Instruction>> {
     let instructions = program.into_inner();
 
     let instructions = instructions
-        .map(|i| match i.as_rule() {
+        .filter_map(|i| match i.as_rule() {
             Rule::instruction => Some(instruction_from_pair(i)),
             Rule::comment => None,
             other => unimplemented!("don't handle {:#?}", other),
         })
-        .flat_map(|x| x)
         .collect::<Vec<_>>();
 
     if instructions.iter().any(Result::is_err) {
@@ -38,7 +37,7 @@ pub fn parse_to_program(program: &str) -> eyre::Result<Vec<Instruction>> {
         ));
     }
 
-    let instructions = instructions.into_iter().flat_map(|x| x).collect();
+    let instructions = instructions.into_iter().flatten().collect();
 
     Ok(instructions)
 }

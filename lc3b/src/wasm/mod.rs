@@ -30,10 +30,7 @@ pub struct WasmCallbacksRegistry {
 pub fn new_computer(program: &str, callbacks: WasmCallbacksRegistry) -> Computer {
     let program = Program::from_assembly(program).unwrap();
     log(&format!("{:#?}", program));
-    match callbacks.hello.call0(&JsValue::NULL) {
-        Err(e) => log(&format!("failed to call hello: {:?}", e)),
-        _ => (),
-    };
+    if let Err(e) = callbacks.hello.call0(&JsValue::NULL) { log(&format!("failed to call hello: {:?}", e)) };
 
     let callbacks = CallbacksRegistry {
         hello: Callback::JS(callbacks.hello),

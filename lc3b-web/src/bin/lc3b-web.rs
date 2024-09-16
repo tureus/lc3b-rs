@@ -21,7 +21,7 @@ async fn get_root() -> impl IntoResponse {
     IndexTemplate {}.into_response()
 }
 
-const LC3B_WASM_BYTES: &'static [u8] = include_bytes!("../../../lc3b/pkg/lc3b_bg.wasm");
+const LC3B_WASM_BYTES: &[u8] = include_bytes!("../../../lc3b/pkg/lc3b_bg.wasm");
 
 async fn get_lc3b_wasm() -> impl IntoResponse {
     (
@@ -31,7 +31,7 @@ async fn get_lc3b_wasm() -> impl IntoResponse {
     )
 }
 
-const LC3B_JS_BYTES: &'static [u8] = include_bytes!("../../../lc3b/pkg/lc3b.js");
+const LC3B_JS_BYTES: &[u8] = include_bytes!("../../../lc3b/pkg/lc3b.js");
 
 async fn get_lc3b_js() -> impl IntoResponse {
     (
