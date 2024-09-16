@@ -54,17 +54,17 @@ fn instruction_from_pair(pair: Pair<Rule>) -> eyre::Result<Instruction> {
     let instruction = match opcode.as_str() {
         "ADD" => {
             let mut operands = inner.next().unwrap().into_inner();
-            let arg_two = operands.next().unwrap().as_str();
-            let dst_reg = Register::from_str(arg_two)?;
-
             let arg_one = operands.next().unwrap().as_str();
-            let src_reg = Register::from_str(arg_one)?;
+            let dst_reg = Register::from_str(arg_one)?;
+
+            let arg_two = operands.next().unwrap().as_str();
+            let src_reg = Register::from_str(arg_two)?;
 
             let arg_three = operands.next().unwrap();
             let inner: AddInstruction = match arg_three.as_rule() {
                 Rule::literal => {
                     let imm5 = Immediate5::from_str(arg_three.as_str())?;
-                    AddInstruction::AddImm(src_reg, dst_reg, imm5)
+                    AddInstruction::AddImm(dst_reg, src_reg, imm5)
                 }
                 Rule::register => {
                     let src2_reg = Register::from_str(arg_three.as_str())?;
@@ -82,9 +82,9 @@ fn instruction_from_pair(pair: Pair<Rule>) -> eyre::Result<Instruction> {
 
 #[cfg(test)]
 mod test {
-    use lc3b_isa::instruction::Instruction;
-    use lc3b_isa::instruction::Register;
-    use lc3b_isa::instruction::{AddInstruction, Immediate5};
+    use lc3b_isa::Instruction;
+    use lc3b_isa::Register;
+    use lc3b_isa::{AddInstruction, Immediate5};
 
     #[test]
     pub fn stuff() {

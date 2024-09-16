@@ -1,4 +1,4 @@
-use crate::{Computer, Program};
+use crate::{CallbacksRegistry, Computer, Program};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsValue;
 
@@ -17,13 +17,26 @@ pub fn parse_program(program: &str) {
     }
 }
 
+pub enum Callback {
+    JS(js_sys::Function),
+}
+
 #[wasm_bindgen]
-pub fn new_computer(program: &str, hello: js_sys::Function) -> Computer {
+pub struct WasmCallbacksRegistry {
+    hello: js_sys::Function,
+}
+
+#[wasm_bindgen]
+pub fn new_computer(program: &str, callbacks: WasmCallbacksRegistry) -> Computer {
     let program = Program::from_assembly(program).unwrap();
     log(&format!("{:#?}", program));
-    match hello.call0(&JsValue::NULL) {
+    match callbacks.hello.call0(&JsValue::NULL) {
         Err(e) => log(&format!("failed to call hello: {:?}", e)),
         _ => (),
     };
-    Computer::new(program, hello)
+
+    let callbacks = CallbacksRegistry {
+        hello: Callback::JS(callbacks.hello),
+    };
+    Computer::new(program, callbacks)
 }

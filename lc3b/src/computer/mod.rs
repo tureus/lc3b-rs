@@ -1,6 +1,11 @@
 use wasm_bindgen::prelude::*;
 
+use crate::wasm::Callback;
 use crate::Program;
+
+pub struct CallbacksRegistry {
+    pub hello: Callback,
+}
 
 #[wasm_bindgen]
 #[allow(dead_code)]
@@ -8,14 +13,16 @@ pub struct Computer {
     program: Program,
     program_counter: u16,
     condition: Condition,
+    callbacks: CallbacksRegistry,
 }
 
 impl Computer {
-    pub fn new(program: Program, js_callbacks: js_sys::Function) -> Self {
+    pub fn new(program: Program, callbacks: CallbacksRegistry) -> Self {
         Computer {
             program,
             program_counter: 0,
             condition: Condition::default(),
+            callbacks,
         }
     }
 

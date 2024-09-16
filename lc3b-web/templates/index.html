@@ -2,13 +2,13 @@
 <html>
 <head></head>
 <body>
-<h1 id="header_with_loading">LC3b (loading)</h1>
+<h1 id="header_with_loading">LC3b (loading...)</h1>
 <label name="program" id="program"></label>
 <textarea rows="20" cols="60" id="program">ADD R1, R2, 0; this is a program</textarea>
 <br/>
 <button onclick="run()">Run</button>
 <script type="module">
-    import init, {parse_program} from "./lc3b.js";
+    import init, {parse_program, new_computer} from "./lc3b.js";
 
     init()
         .then(() => {
@@ -16,11 +16,15 @@
             clicker.onclick = function () {
                 let program_assembly = document.querySelectorAll('textarea[id="program"]')[0].value;
                 console.log(program_assembly);
-                parse_program(program_assembly);
+                new_computer(program_assembly, {
+                    hello: function () {
+                        console.log("MEOW");
+                    }
+                })
             }
 
             let header = document.querySelectorAll('h1[id="header_with_loading"]')[0];
-            header.textContext = "LC3b";
+            header.innerHTML = "LC3b";
         });
 </script>
 </body>
