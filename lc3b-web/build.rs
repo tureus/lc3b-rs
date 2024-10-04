@@ -13,11 +13,13 @@ fn main() {
         println!("cargo::rerun-if-changed={}", path.unwrap().display())
     }
 
-    let mut build_opts = BuildOptions::default();
-    build_opts.path = Some(PathBuf::from("../lc3b"));
-    build_opts.out_dir = "../lc3b/pkg".into();
-    build_opts.disable_dts = true;
-    build_opts.target = Target::Web;
+    let build_opts = BuildOptions {
+        path: Some(PathBuf::from("../lc3b")),
+        out_dir: "../lc3b/pkg".into(),
+        disable_dts: true,
+        target: Target::Web,
+        ..Default::default()
+    };
     let mut build = Build::try_from_opts(build_opts).unwrap();
     build.run().expect("wasm-pack build");
 }

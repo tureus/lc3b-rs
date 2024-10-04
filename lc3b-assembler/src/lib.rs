@@ -1,6 +1,7 @@
-use std::{fmt::Debug, hash::Hash};
+#![forbid(unsafe_code)]
 
-#[forbid(unsafe_code)]
+use std::{fmt::Debug, hash::Hash, str::FromStr};
+
 use lc3b_isa::{AddInstruction, Immediate5, Instruction, Register};
 use pest::{
     iterators::{Pair, Pairs},
@@ -13,8 +14,8 @@ struct LC3BAsmParser {}
 
 pub type Error = pest::error::Error<Rule>;
 
-pub fn parse_to_pairs(program: &str) -> Result<Pairs<Rule>, Error> {
-    LC3BAsmParser::parse(Rule::program, program)
+pub fn parse_to_pairs(program: &str) -> Result<Pairs<Rule>, Box<Error>> {
+    LC3BAsmParser::parse(Rule::program, program).map_err(Box::new)
 }
 
 pub fn parse_to_program(program: &str) -> eyre::Result<Vec<Instruction>> {
@@ -88,7 +89,7 @@ mod test {
     #[test]
     pub fn stuff() {
         let test_asm = r#"
-    ADD R1, R1, 8; this is a comment   
+    ADD R1, R1, 8; this is a comment
     ADD R1, R2, 100;
 "#;
 

@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+use std::str::FromStr;
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Instruction {
     AddInstruction(AddInstruction),
@@ -46,9 +48,11 @@ pub enum Register {
     Register7,
 }
 
-impl Register {
-    pub fn from_str(input: &str) -> eyre::Result<Register> {
-        let reg = match input {
+impl FromStr for Register {
+    type Err = eyre::Report;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let reg = match s {
             "r0" | "R0" => Register::Register0,
             "r1" | "R1" => Register::Register1,
             "r2" | "R2" => Register::Register2,
@@ -62,7 +66,9 @@ impl Register {
 
         Ok(reg)
     }
+}
 
+impl Register {
     pub fn to_index(&self) -> usize {
         match *self {
             Register::Register0 => 0,
@@ -79,13 +85,17 @@ impl Register {
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Immediate5(pub u8);
-impl Immediate5 {
-    pub fn from_str(input: &str) -> eyre::Result<Self> {
-        // TODO: range check
-        let parsed = input.parse()?;
-        Ok(Immediate5(parsed))
-    }
 
+impl FromStr for Immediate5 {
+    type Err = eyre::Report;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        // TODO: range check
+        Ok(Immediate5(s.parse()?))
+    }
+}
+
+impl Immediate5 {
     pub fn to_value(&self) -> u16 {
         self.0 as u16
     }

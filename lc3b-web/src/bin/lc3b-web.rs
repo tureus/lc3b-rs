@@ -4,7 +4,7 @@ use axum::{http::StatusCode, response::IntoResponse, routing::get, Router};
 
 #[tokio::main]
 async fn main() {
-    let app: _ = Router::new()
+    let app = Router::new()
         .route("/", get(get_root))
         .route("/lc3b_bg.wasm", get(get_lc3b_wasm))
         .route("/lc3b.js", get(get_lc3b_js));
