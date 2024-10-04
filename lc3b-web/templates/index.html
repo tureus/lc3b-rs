@@ -1,31 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head></head>
-<body>
-<h1 id="header_with_loading">LC3b (loading...)</h1>
-<label name="program" id="program"></label>
-<textarea rows="20" cols="60" id="program">ADD R1, R2, 0; this is a program</textarea>
-<br/>
-<button onclick="run()">Run</button>
-<script type="module">
-    import init, {parse_program, new_computer} from "./lc3b.js";
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>LC-3b Simulator</title>
+    </head>
+    <body>
+        <h1 id="header_with_loading">LC-3b (loading...)</h1>
+        <div id="simulator">
+            <label name="program" id="program_label">LC-3b Assembly</label>
+            <textarea rows="20" cols="60" id="program">
+ADD R1, R2, 0; this is a program
+</textarea
+            >
+            <br />
+            <button id="load_program">Load Program</button>
+            <button id="next_instruction">Execute Next Instruction</button>
+        </div>
+        <script type="module">
+            import init, {
+                new_computer,
+                next_instruction,
+                WasmCallbacksRegistry,
+            } from "./lc3b.js";
 
-    init()
-        .then(() => {
-            let clicker = document.querySelectorAll('button')[0];
-            clicker.onclick = function () {
-                let program_assembly = document.querySelectorAll('textarea[id="program"]')[0].value;
-                console.log(program_assembly);
-                new_computer(program_assembly, {
-                    hello: function () {
-                        console.log("MEOW");
-                    }
-                })
+            let computer = null;
+
+            async function initializeSimulator() {
+                await init();
+
+                const header = document.getElementById("header_with_loading");
+                header.textContent = "LC-3b";
+
+                document
+                    .getElementById("load_program")
+                    .addEventListener("click", newComputerWithProgramLoaded);
+
+                document
+                    .getElementById("next_instruction")
+                    .addEventListener("click", nextInstruction);
             }
 
-            let header = document.querySelectorAll('h1[id="header_with_loading"]')[0];
-            header.innerHTML = "LC3b";
-        });
-</script>
-</body>
+            function newComputerWithProgramLoaded() {
+                const programAssembly =
+                    document.getElementById("program").value;
+                var callbacks = WasmCallbacksRegistry.new(
+                    () =>
+                        (document.getElementById(
+                            "next_instruction",
+                        ).textContent =
+                            "I have been clicked and rust toggled me"),
+                );
+                computer = new_computer(programAssembly, callbacks);
+            }
+
+            function nextInstruction() {
+                next_instruction(computer);
+            }
+
+            initializeSimulator().catch(console.error);
+        </script>
+    </body>
 </html>

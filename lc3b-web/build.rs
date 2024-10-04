@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+
 use wasm_pack::command::build::{Build, BuildOptions, Target};
 
 fn main() {

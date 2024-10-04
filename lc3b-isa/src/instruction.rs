@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Instruction {
     AddInstruction(AddInstruction),
     AndInstruction(AndInstruction),
@@ -22,19 +22,19 @@ pub enum Instruction {
     Trap(TrapVect8),
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum AddInstruction {
     AddReg(Register, Register, Register),
     AddImm(Register, Register, Immediate5),
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum AndInstruction {
     AndReg(Register, Register, Register),
     AndImm(Register, Register, Immediate5),
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Register {
     Register0,
     Register1,
@@ -62,9 +62,22 @@ impl Register {
 
         Ok(reg)
     }
+
+    pub fn to_index(&self) -> usize {
+        match *self {
+            Register::Register0 => 0,
+            Register::Register1 => 1,
+            Register::Register2 => 2,
+            Register::Register3 => 3,
+            Register::Register4 => 4,
+            Register::Register5 => 5,
+            Register::Register6 => 6,
+            Register::Register7 => 7,
+        }
+    }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Immediate5(pub u8);
 impl Immediate5 {
     pub fn from_str(input: &str) -> eyre::Result<Self> {
@@ -72,27 +85,31 @@ impl Immediate5 {
         let parsed = input.parse()?;
         Ok(Immediate5(parsed))
     }
+
+    pub fn to_value(&self) -> u16 {
+        self.0 as u16
+    }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Immediate4(u8);
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Condition {
     n: bool,
     z: bool,
     p: bool,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct PCOffset9(u16);
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct PCOffset11(u16);
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct PCOffset6(u8);
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Bit(bool);
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct TrapVect8(u8);
