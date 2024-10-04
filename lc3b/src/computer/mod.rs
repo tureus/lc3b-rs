@@ -1,8 +1,10 @@
 use lc3b_isa::{AddInstruction, Instruction, Register};
 use wasm_bindgen::prelude::*;
 
-use crate::wasm::{log, Callback};
-use crate::Program;
+use crate::{
+    wasm::{log, Callback},
+    Program,
+};
 
 pub struct CallbacksRegistry {
     pub hello: Callback,

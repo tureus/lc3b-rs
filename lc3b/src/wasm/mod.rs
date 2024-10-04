@@ -1,5 +1,6 @@
-use crate::{CallbacksRegistry, Computer, Program};
 use wasm_bindgen::prelude::*;
+
+use crate::{CallbacksRegistry, Computer, Program};
 
 #[wasm_bindgen]
 extern "C" {

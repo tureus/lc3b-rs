@@ -1,9 +1,6 @@
 use askama::Template;
 use askama_axum::IntoResponse as AskamaIntoResponse;
-use axum::http::StatusCode;
-use axum::response::IntoResponse;
-use axum::routing::get;
-use axum::Router;
+use axum::{http::StatusCode, response::IntoResponse, routing::get, Router};
 
 #[tokio::main]
 async fn main() {

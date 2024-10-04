@@ -1,9 +1,11 @@
+use std::{fmt::Debug, hash::Hash};
+
 #[forbid(unsafe_code)]
 use lc3b_isa::{AddInstruction, Immediate5, Instruction, Register};
-use pest::iterators::{Pair, Pairs};
-use pest::Parser;
-use std::fmt::Debug;
-use std::hash::Hash;
+use pest::{
+    iterators::{Pair, Pairs},
+    Parser,
+};
 
 #[derive(pest_derive::Parser)]
 #[grammar = "lc3b_asm.pest"]
@@ -81,9 +83,7 @@ fn instruction_from_pair(pair: Pair<Rule>) -> eyre::Result<Instruction> {
 
 #[cfg(test)]
 mod test {
-    use lc3b_isa::Instruction;
-    use lc3b_isa::Register;
-    use lc3b_isa::{AddInstruction, Immediate5};
+    use lc3b_isa::{AddInstruction, Immediate5, Instruction, Register};
 
     #[test]
     pub fn stuff() {
