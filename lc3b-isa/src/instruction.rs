@@ -2,6 +2,8 @@
 
 use std::str::FromStr;
 
+use crate::Register;
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Instruction {
     AddInstruction(AddInstruction),
@@ -24,6 +26,29 @@ pub enum Instruction {
     Trap(TrapVect8),
 }
 
+impl From<&Instruction> for [u8; 2] {
+    fn from(value: &Instruction) -> Self {
+        let mut bytes = [0; 2];
+
+        match value {
+            Instruction::AddInstruction(AddInstruction::AddReg(r1, r2, r3)) => {
+                bytes[0] |= 0b00010000;
+                bytes[0] |= ((r1.to_index() as u8) << 1);
+                bytes[0] |= ((r2.to_index() as u8) >> 2);
+
+                bytes[1] |= ((r2.to_index() as u8) << 6);
+                bytes[1] |= ((r3.to_index() as u8) << 0);
+            }
+            Instruction::AddInstruction(AddInstruction::AddImm(_r1, _r2, _imm5)) => {
+                todo!("ADD 2 regs, 1 imm")
+            }
+            _other => todo!("wah"),
+        }
+
+        bytes
+    }
+}
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum AddInstruction {
     AddReg(Register, Register, Register),
@@ -34,53 +59,6 @@ pub enum AddInstruction {
 pub enum AndInstruction {
     AndReg(Register, Register, Register),
     AndImm(Register, Register, Immediate5),
-}
-
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum Register {
-    Register0,
-    Register1,
-    Register2,
-    Register3,
-    Register4,
-    Register5,
-    Register6,
-    Register7,
-}
-
-impl FromStr for Register {
-    type Err = eyre::Report;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let reg = match s {
-            "r0" | "R0" => Register::Register0,
-            "r1" | "R1" => Register::Register1,
-            "r2" | "R2" => Register::Register2,
-            "r3" | "R3" => Register::Register3,
-            "r4" | "R4" => Register::Register4,
-            "r5" | "R5" => Register::Register5,
-            "r6" | "R6" => Register::Register6,
-            "r7" | "R7" => Register::Register7,
-            unknown => return Err(eyre::eyre!("unhandled register identifier: {}", unknown)),
-        };
-
-        Ok(reg)
-    }
-}
-
-impl Register {
-    pub fn to_index(&self) -> usize {
-        match *self {
-            Register::Register0 => 0,
-            Register::Register1 => 1,
-            Register::Register2 => 2,
-            Register::Register3 => 3,
-            Register::Register4 => 4,
-            Register::Register5 => 5,
-            Register::Register6 => 6,
-            Register::Register7 => 7,
-        }
-    }
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -104,7 +82,7 @@ impl Immediate5 {
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Immediate4(u8);
 
-#[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub struct Condition {
     n: bool,
     z: bool,
