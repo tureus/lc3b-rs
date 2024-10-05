@@ -33,11 +33,11 @@ impl From<&Instruction> for [u8; 2] {
         match value {
             Instruction::AddInstruction(AddInstruction::AddReg(r1, r2, r3)) => {
                 bytes[0] |= 0b00010000;
-                bytes[0] |= ((r1.to_index() as u8) << 1);
-                bytes[0] |= ((r2.to_index() as u8) >> 2);
+                bytes[0] |= (r1.to_index() as u8) << 1;
+                bytes[0] |= (r2.to_index() as u8) >> 2;
 
-                bytes[1] |= ((r2.to_index() as u8) << 6);
-                bytes[1] |= ((r3.to_index() as u8) << 0);
+                bytes[1] |= (r2.to_index() as u8) << 6;
+                bytes[1] |= r3.to_index() as u8;
             }
             Instruction::AddInstruction(AddInstruction::AddImm(_r1, _r2, _imm5)) => {
                 todo!("ADD 2 regs, 1 imm")
