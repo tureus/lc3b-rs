@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 pub fn dump_slice_to_binary(bytes: &[u8]) -> String {
     let mut string = String::with_capacity(bytes.len() * (8 + 2)); // a character for each bit and the newline
 
