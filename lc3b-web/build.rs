@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use wasm_pack::command::build::{Build, BuildOptions, Target};
 
 fn main() {
-    let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
     let lc3b_path = PathBuf::from(manifest_dir).join("../lc3b");
 
     for path in glob::glob("../lc3b/src/**/*.rs").unwrap() {
