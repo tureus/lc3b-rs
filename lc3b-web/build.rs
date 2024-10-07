@@ -15,13 +15,6 @@ fn main() {
         .find(|f| f.starts_with("lc3b"))
         .expect("a sibling lc3b directory");
 
-    let lc3b_web_directory = sibling_folders
-        .iter()
-        .filter(|f| f.contains("-web"))
-        .find(|f| f.starts_with("lc3b"))
-        .expect("a lc3b-web directory");
-    let lc3b_web_directory_path = PathBuf::from("..").join(lc3b_web_directory);
-
     let lc3b_path = PathBuf::from(manifest_dir).join("..").join(lc3b_directory);
 
     for path in glob::glob(&lc3b_path.display().to_string()).unwrap() {
