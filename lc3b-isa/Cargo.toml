@@ -1,6 +1,6 @@
 [package]
 name = "lc3b-isa"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "LC-3B instruction set architecture type definitions"
 license = "MIT"
