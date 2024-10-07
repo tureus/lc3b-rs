@@ -17,8 +17,8 @@ impl Program {
 mod tests {
     #[test]
     fn parse_two_line_program() {
-        let program = r#"ADD R1, R2, 100; this is a program
-ADD R2, R3, 1000; blaha"#;
+        let program = r#"ADD R1, R2, 10; this is a program
+ADD R2, R3, 30; blaha"#;
         super::Program::from_assembly(program).unwrap();
     }
 }

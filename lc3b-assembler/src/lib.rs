@@ -90,7 +90,7 @@ mod test {
     pub fn stuff() {
         let test_asm = r#"
     ADD R1, R1, 8; this is a comment
-    ADD R1, R2, 100;
+    ADD R1, R2, 10;
 "#;
 
         let instructions = super::parse_to_program(test_asm).unwrap();
@@ -100,12 +100,12 @@ mod test {
                 Instruction::AddInstruction(AddInstruction::AddImm(
                     Register::Register1,
                     Register::Register1,
-                    Immediate5(8,),
+                    Immediate5::new(8,).unwrap(),
                 ),),
                 Instruction::AddInstruction(AddInstruction::AddImm(
-                    Register::Register2,
                     Register::Register1,
-                    Immediate5(100,),
+                    Register::Register2,
+                    Immediate5::new(10,).unwrap(),
                 ),),
             ]
         )

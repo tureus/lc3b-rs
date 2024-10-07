@@ -37,12 +37,18 @@ impl From<&Instruction> for [u8; 2] {
                 bytes[0] |= (r2.to_index() as u8) >> 2;
 
                 bytes[1] |= (r2.to_index() as u8) << 6;
-                bytes[1] |= r3.to_index() as u8;
+                bytes[1] |= (r3.to_index() as u8) << 0;
             }
-            Instruction::AddInstruction(AddInstruction::AddImm(_r1, _r2, _imm5)) => {
-                todo!("ADD 2 regs, 1 imm")
+            Instruction::AddInstruction(AddInstruction::AddImm(r1, r2, imm5)) => {
+                bytes[0] |= 0b00010000;
+                bytes[0] |= (r1.to_index() as u8) << 1;
+                bytes[0] |= (r2.to_index() as u8) >> 2;
+
+                bytes[1] |= (r2.to_index() as u8) << 6;
+                bytes[1] |= 0b00100000;
+                bytes[1] |= imm5.0 & 0b00011111;
             }
-            _other => todo!("wah"),
+            other => todo!("wah: {:?}", other),
         }
 
         bytes
@@ -62,14 +68,29 @@ pub enum AndInstruction {
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct Immediate5(pub u8);
+pub struct Immediate5(pub(crate) u8);
+
+impl Immediate5 {
+    pub fn new(imm5: u8) -> eyre::Result<Self> {
+        assert!(imm5 < 32);
+        if imm5 >= 32 {
+            return Err(eyre::eyre!("value `{}` too large, must be < 32", imm5));
+        }
+
+        Ok(Immediate5(imm5))
+    }
+
+    pub fn value(&self) -> u8 {
+        self.0
+    }
+}
 
 impl FromStr for Immediate5 {
     type Err = eyre::Report;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         // TODO: range check
-        Ok(Immediate5(s.parse()?))
+        Self::new(s.parse()?)
     }
 }
 
@@ -80,7 +101,17 @@ impl Immediate5 {
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct Immediate4(u8);
+pub struct Immediate4(pub(crate) u8);
+
+impl Immediate4 {
+    pub fn new(val: u8) -> eyre::Result<Self> {
+        if val >= 16 {
+            return Err(eyre::eyre!("value `{}` too large, must be < 16", val));
+        }
+
+        Ok(Immediate4(val))
+    }
+}
 
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub struct Condition {

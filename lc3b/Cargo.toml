@@ -19,3 +19,6 @@ lc3b-isa = { path = "../lc3b-isa" }
 
 [lib]
 crate-type = ["cdylib"]
+
+[dev-dependencies]
+eyre = "0"
