@@ -44,20 +44,6 @@ fn main() {
     let mut build = Build::try_from_opts(build_opts).unwrap();
     build.run().expect("wasm-pack build");
 
-    // let lc3b_web_pkg_path = lc3b_web_directory_path.join(".pkg");
-    // if !std::fs::exists(&lc3b_web_pkg_path).expect("check lc3b web pkg cache") {
-    //     std::fs::create_dir(&lc3b_web_pkg_path)
-    //         .expect(&format!("could not find {:?}", lc3b_web_pkg_path));
-    // }
-
-    // for pkg_file in ["lc3b.js", "lc3b_bg.wasm"] {
-    //     std::fs::copy(
-    //         lc3b_path.join("pkg").join(pkg_file),
-    //         lc3b_web_pkg_path.join(pkg_file),
-    //     )
-    //     .expect("copy from lc3b pkg path to lc3b-web pkg path");
-    // }
-
     println!(
         "cargo:rustc-env=LC3B_PKG_JS_PATH={}",
         out_dir.join("pkg").join("lc3b.js").display().to_string()

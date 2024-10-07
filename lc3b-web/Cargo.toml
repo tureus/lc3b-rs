@@ -2,6 +2,7 @@
 name = "lc3b-web"
 version = "0.1.1"
 edition = "2021"
+description = "LC3B computer emulator app webserver"
 license = "MIT"
 
 [[bin]]
