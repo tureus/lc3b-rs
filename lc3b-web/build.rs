@@ -3,6 +3,9 @@ use std::path::PathBuf;
 use wasm_pack::command::build::{Build, BuildOptions, Target};
 
 fn main() {
+    let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let lc3b_path = PathBuf::from(manifest_dir).join("../lc3b");
+
     for path in glob::glob("../lc3b/src/**/*.rs").unwrap() {
         println!("cargo::rerun-if-changed={}", path.unwrap().display())
     }
@@ -14,8 +17,8 @@ fn main() {
     }
 
     let build_opts = BuildOptions {
-        path: Some(PathBuf::from("../lc3b")),
-        out_dir: "../lc3b/pkg".into(),
+        path: Some(lc3b_path.clone()),
+        out_dir: lc3b_path.join("pkg").to_str().unwrap().into(),
         disable_dts: true,
         target: Target::Web,
         ..Default::default()

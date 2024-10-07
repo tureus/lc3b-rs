@@ -10,6 +10,7 @@ name = "lc3b-web"
 [build-dependencies]
 glob = "0.3"
 wasm-pack = "0.13"
+lc3b = { version = "0", path = "../lc3b" }
 
 [dependencies]
 axum = "0.7"
