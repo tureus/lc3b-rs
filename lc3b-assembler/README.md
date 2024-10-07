@@ -1,7 +1,4 @@
-LC3b Assembler
+LC-3b Assembler
 ---
 
-What is an assembler?
----
-
-Takes short-hand code for lc3b-flavored assembly and generates machine code, including all immediate values for offsets.
+Parse LC-3b flavored assembly in to ISA data types
