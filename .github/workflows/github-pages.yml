@@ -16,14 +16,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: lc3b-rs
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-      - run: cd lc3b-rs/lc3b-web; cargo build
-      - run: ls ./target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm
-      - run: |
-          mkdir dist/
-          cp target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm dist/
-          cp target/debug/build/lc3b-web-*/out/pkg/lc3b.js dist/
-          cp lc3b-web/templates/index.html dist/
 
       - uses: actions/checkout@v4
         with:
@@ -31,6 +23,19 @@ jobs:
           path: lc3b.github.io
           ref: main
           token: ${{ secrets.GH_IO_PAGES_PAT }}
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - run: cd lc3b-rs/lc3b-web; cargo build
+      - run: ls lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm
+      - run: |
+          mkdir lc3b.github.io/dist/
+          cp lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm lc3b.github.io/dist/
+          cp lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b.js lc3b.github.io/dist/
+          cp lc3b-rs/lc3b-web/templates/index.html lc3b.github.io/dist/
+          du -hs lc3b.github.io/* lc3b.github.io/dist/*
+
+
       # - name: Configure GitHub Pages deployment
       #   uses: actions/configure-pages@v3
 
