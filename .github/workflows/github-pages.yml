@@ -29,17 +29,12 @@ jobs:
       - run: cd lc3b-rs/lc3b-web; cargo build
       - run: ls lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm
       - run: |
-          mkdir lc3b.github.io/dist/
-          cp lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm lc3b.github.io/dist/
-          cp lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b.js lc3b.github.io/dist/
-          cp lc3b-rs/lc3b-web/templates/index.html lc3b.github.io/dist/
-          du -hs lc3b.github.io/* lc3b.github.io/dist/*
+          cp lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm lc3b.github.io/
+          cp lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b.js lc3b.github.io/
+          cp lc3b-rs/lc3b-web/templates/index.html lc3b.github.io/
 
-
-      # - name: Configure GitHub Pages deployment
-      #   uses: actions/configure-pages@v3
-
-      # - name: Deploy to GitHub Pages
-      #   uses: actions/deploy-pages@v2
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automated Commit"
+          repository: lc3b.github.io
+          tagging_message: ${{  steps.ref_name.outputs.result }}
