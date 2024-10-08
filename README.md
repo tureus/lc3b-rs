@@ -1,7 +1,7 @@
-LC3b
+LC-3b
 ---
 
-A rusty version of the LC3b computer. Workspace includes these crates:
+A rusty version of the LC-3b computer -- a simple teaching computer. Workspace includes these crates:
 
   * lc3b: emulator which takes a program in assembly format, places the program in memory, and allows stepping through the program all while inspecting the internal state of the computer
   * lc3b-assembler: conversion of assembly to a suitable abstract in-memory representation
@@ -13,6 +13,13 @@ Key technologies:
   * [Rust](https://doc.rust-lang.org/book/)
   * Rust code in to WASM enabled by [wasm-pack](https://github.com/rustwasm/wasm-pack)
   * [Pest ](https://pest.rs/) parsing expression grammar (no lexer+parser)
+
+Goals:
+
+  - [] Turn assembly in to binary blob suitable for execution
+  - [] Full support for all instructions
+  - [] Resolve labels in to offsets
+  - [] Web interface for viewing state of computer
 
 Running locally
 ---
