@@ -33,7 +33,7 @@ jobs:
           cp lc3b-rs/target/debug/build/lc3b-web-*/out/pkg/lc3b.js lc3b.github.io/
           cp lc3b-rs/lc3b-web/templates/index.html lc3b.github.io/
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Automated Commit"
           repository: lc3b.github.io
