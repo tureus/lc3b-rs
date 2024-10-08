@@ -1,0 +1,31 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - gha
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --all-features
+        env:
+          CARGO_MANIFEST_DIR: ./lc3b-web
+
+      # - name: Configure GitHub Pages deployment
+      #   uses: actions/configure-pages@v3
+
+      # - name: Deploy to GitHub Pages
+      #   uses: actions/deploy-pages@v2
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
