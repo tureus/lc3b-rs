@@ -14,10 +14,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: lc3b-rs
       - uses: actions-rust-lang/setup-rust-toolchain@v1
       - run: cd lc3b-web; cargo build
       - run: ls ./target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm
+      - run: |
+          mkdir dist/
+          cp target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm dist/
+          cp target/debug/build/lc3b-web-*/out/pkg/lc3b.js dist/
+          cp lc3b-web/templates/index.html dist/
 
+      - uses: actions/checkout@v4
+        with:
+          repository: lc3b/lc3b.github.io.git
+          path: lc3b.github.io
+          ref: main
+          token: ${{ secrets.GH_IO_PAGES_PAT }}
       # - name: Configure GitHub Pages deployment
       #   uses: actions/configure-pages@v3
 
