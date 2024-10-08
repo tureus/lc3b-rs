@@ -17,7 +17,7 @@ jobs:
         with:
           path: lc3b-rs
       - uses: actions-rust-lang/setup-rust-toolchain@v1
-      - run: cd lc3b-web; cargo build
+      - run: cd lc3b-rs/lc3b-web; cargo build
       - run: ls ./target/debug/build/lc3b-web-*/out/pkg/lc3b_bg.wasm
       - run: |
           mkdir dist/
